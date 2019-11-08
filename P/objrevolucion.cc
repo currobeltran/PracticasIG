@@ -108,36 +108,42 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    }
 
-   //Añadir tapas si es necesario
-   if(hayTapaSup && conTapaSup){
+   v2=v;
+   f2=f;
+
+   //Añadir tapas en el otro vector
+   if(hayTapaSup){
       crearTapas(num_instancias, perfil_original.size(), tapaSup, true);
    }
-   else if(!hayTapaSup && conTapaSup){
+   else{
       tapaSup={0,perfil_original[0][1],0};
       crearTapas(num_instancias, perfil_original.size(), tapaSup, true);
    }
 
-   if(hayTapaInf && conTapaInf){
+   if(hayTapaInf){
       crearTapas(num_instancias, perfil_original.size(), tapaInf, false);
    }
-   else if(!hayTapaInf && conTapaInf){
+   else{
       tapaInf={0,perfil_original[perfil_original.size()-1][1],0};
       crearTapas(num_instancias, perfil_original.size(), tapaInf, false);
    }
 
-   c.resize(v.size());
+   c.resize(v2.size());
 }
 
 void ObjRevolucion::crearTapas(int num_instancias, int perfil_size, Tupla3f tapa, bool tapaSup){
-   v.push_back(tapa);
+   v2=v2;
+   f2=f2;
+   v2.push_back(tapa);
    int tap, a, b;
-   tap=v.size()-1;
+   tap=v2.size()-1;
+   
    if(tapaSup){
       for(int i=0; i<num_instancias; i++){
          
          a=perfil_size*i;
          b=perfil_size*((i+1)%num_instancias);
-         f.push_back({a,tap,b});
+         f2.push_back({a,tap,b});
       
       }
    }
@@ -145,35 +151,28 @@ void ObjRevolucion::crearTapas(int num_instancias, int perfil_size, Tupla3f tapa
       for(int i=1; i<num_instancias-1; i++){
          a=perfil_size*i-1;
          b=perfil_size*((i+1)%num_instancias)-1;
-         f.push_back({b,tap,a});
+         f2.push_back({b,tap,a});
       }
 
       a=perfil_size*num_instancias-(perfil_size+1);
       b=perfil_size*num_instancias-1;
-      f.push_back({b,tap,a});
+      f2.push_back({b,tap,a});
 
       a=perfil_size*num_instancias-1;
       b=perfil_size-1;
-      f.push_back({b,tap,a});
-   }
-}
-
-void ObjRevolucion::eliminarTapas(int num_instancias){
-   for(int i=0; i<num_instancias*2; i++){
-      f.pop_back();
+      f2.push_back({b,tap,a});
    }
 }
 
 void ObjRevolucion::cambiarTapas(bool &tapas){
    
-   if(tapas){
-      eliminarTapas(numeroPerfiles);
-   }
+   std::vector<Tupla3f> aux=v;
+   v=v2;
+   v2=aux;
 
-   else if(!tapas){
-      crearTapas(numeroPerfiles, verticesPorPerfil, tapaSup, true);
-      crearTapas(numeroPerfiles, verticesPorPerfil, tapaInf, false);
-   }
+   std::vector<Tupla3i> aux2=f;
+   f=f2;
+   f2=aux2;
 
    tapas=!tapas;
 

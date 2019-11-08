@@ -64,9 +64,15 @@ class Malla3D
    const std::vector<Tupla3i> &caras, std::vector<Tupla3i> &carasPares, std::vector<Tupla3i> &carasImpares, const std::vector<Tupla3f> &colores);
 
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
+   std::vector<Tupla3f> v2; // tabla de coordenadas de vértices con tapas
+
    std::vector<Tupla3i> f; // una terna de 3 enteros por cada cara o triángulo
+   std::vector<Tupla3i> f2; // tabla de caras con tapas
+
    std::vector<Tupla3f> c; // terna de 3 floats para cada vertice
+   
    std::vector<Tupla3f> nv; // vector de normales a los vertices
+   std::vector<Tupla3f> nv2; // vector de normales con tapas
    Material * m; 
 
    GLuint id_vbo_ver=0;

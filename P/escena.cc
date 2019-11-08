@@ -70,7 +70,7 @@ void Escena::dibujar(){
    if(modoIluminacion){
       if(!glIsEnabled(GL_LIGHTING))
          glEnable(GL_LIGHTING); // se habilitan las luces
-      tetraedro->setMaterial(mat);
+      unObjRev->setMaterial(mat);
       // unCono->setMaterial(mat); 
    }
    else{
@@ -81,12 +81,12 @@ void Escena::dibujar(){
    glEnable(GL_CULL_FACE);
 
    glPushMatrix();
-      //glScalef(20,20,20);
+      glScalef(20,20,20);
       glTranslatef(5,2,2);
       //unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
       glTranslatef(-5,-2,-2);
-      //unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-      tetraedro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      //tetraedro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
       unaLuz2->activar();
    glPopMatrix();
    
