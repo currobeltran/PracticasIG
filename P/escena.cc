@@ -20,12 +20,12 @@ Escena::Escena()
    cubo=new Cubo();
    
    unPly=new ObjPLY("./plys/beethoven.ply");
-   unObjRev=new ObjRevolucion("./plys/peon.ply",30);
+   unObjRev=new ObjRevolucion("./plys/peon.ply",40);
    unCono=new Cono(40,1,1,true,true);
 
    unaLuz=new LuzPosicional({500,500,500},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
-   unaLuz2=new LuzDireccional({1,1,5},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
+   unaLuz2=new LuzDireccional({3,10,1},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    luces={false};
@@ -71,7 +71,8 @@ void Escena::dibujar(){
       if(!glIsEnabled(GL_LIGHTING))
          glEnable(GL_LIGHTING); // se habilitan las luces
       unObjRev->setMaterial(mat);
-      // unCono->setMaterial(mat); 
+      unCono->setMaterial(mat); 
+      cubo->setMaterial(mat);
    }
    else{
       if(glIsEnabled(GL_LIGHTING))
@@ -82,11 +83,11 @@ void Escena::dibujar(){
 
    glPushMatrix();
       glScalef(20,20,20);
+      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
       glTranslatef(5,2,2);
-      //unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-      glTranslatef(-5,-2,-2);
+      unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glTranslatef(-2,-2,-2);
       unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-      //tetraedro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
       unaLuz2->activar();
    glPopMatrix();
    
@@ -220,7 +221,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case 'T':
          //SELECCION DE TAPAS
          unObjRev->cambiarTapas(tapas);
-         //unCono->cambiarTapas(tapasant);
+         unCono->cambiarTapas(tapas);
       break;
 
       case 'I':

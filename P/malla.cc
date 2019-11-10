@@ -157,6 +157,7 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i)
       if(nv.empty()){
          calcular_normales();
       }
+
    }
 
    else{
@@ -239,7 +240,6 @@ const std::vector<Tupla3f> &colores){
 
 void Malla3D::calcular_normales(){
    //Calcular normales de las caras
-
    std::vector<Tupla3f> normalesCaras;
    Tupla3f a, b, perpendicular, normal;
    int x, y, z;
@@ -261,7 +261,8 @@ void Malla3D::calcular_normales(){
       normalesCaras.push_back(normal);
    }
 
-   nv.resize(v.size());
+   //Normales de los vertices
+   nv=std::vector<Tupla3f>(v.size(),{0,0,0});
 
    for(int i=0; i<f.size(); i++){
       x=f[i][0];
