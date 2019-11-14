@@ -12,6 +12,8 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 {
    // leer la lista de caras y vértices
    ply::read( nombre_archivo, this->v, this->f );
+
+   this->c.resize(this->v.size());
 }
 
 

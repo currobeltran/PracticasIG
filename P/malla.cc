@@ -1,9 +1,6 @@
 #include "aux.h"
 #include "malla.h"
 
-//MODO DIBUJO PONERLO EN UN SOLO SITIO, QUE SE PUEDAN VER VARIOS MODOS Y QUE 
-//HAYA MAS MODULARIZACION. AÑADIR EL PLY
-
 // *****************************************************************************
 //
 // Clase Malla3D
@@ -40,7 +37,6 @@ void Malla3D::seleccionColorInmediato(Tupla3f color){
    glColorPointer(3, GL_FLOAT, 0, c.data());
 }
 
-//La siguiente funcion hay que revisarla
 void Malla3D::seleccionColorDiferido(Tupla3f color, GLuint VBO){
 
    if(VBO==0){
@@ -94,10 +90,9 @@ void Malla3D::draw_ModoInmediato(bool p, bool l, bool s)
 void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
 {
    //Si no se han creado los vbo, se crean y se guardan sus identificadores
-   if(id_vbo_ver==0 && id_vbo_tri==0 && id_vbo_nor==0){
+   if(id_vbo_ver==0 && id_vbo_tri==0){
       id_vbo_ver=CrearVBO(GL_ARRAY_BUFFER, v.size() * sizeof(float) * 3, v.data());
       id_vbo_tri=CrearVBO(GL_ELEMENT_ARRAY_BUFFER, f.size() * sizeof(int) * 3, f.data());
-      id_vbo_nor=CrearVBO(GL_ARRAY_BUFFER, nv.size() * sizeof(float) * 3, nv.data());
    }
 
    //Inicio array vertices
@@ -108,6 +103,10 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
    
    //Inicio array triangulos 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbo_tri);
+
+   if(id_vbo_nor==0){
+      id_vbo_nor=CrearVBO(GL_ARRAY_BUFFER, nv.size() * sizeof(float) * 3, nv.data());
+   }
 
    //Inicio array normales
    glBindBuffer(GL_ARRAY_BUFFER,id_vbo_nor);

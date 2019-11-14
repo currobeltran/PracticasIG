@@ -50,7 +50,7 @@ class Escena{
         Esfera * unaEsfera=nullptr;
         LuzPosicional * unaLuz=nullptr;
         LuzDireccional * unaLuz2=nullptr;
-        Material mat;
+        Material mat, mat2, mat3;
    
     // Variable que contiene el modo de dibujado, si inmediato o diferido
         int modoDibujo;
@@ -61,7 +61,7 @@ class Escena{
         bool modoSolido=false;
         bool modoAjedrez=false;
         bool modoIluminacion=false;
-        std::vector<bool> luces=std::vector<bool>(8);
+        std::vector<bool> luces=std::vector<bool>(8,false);
 
     //Booleano que decide si hay que poner o no tapas
         bool tapas=true;

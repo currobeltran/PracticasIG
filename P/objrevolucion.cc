@@ -1,7 +1,6 @@
 #include "aux.h"
 #include "objrevolucion.h"
-
-
+#include <algorithm> //Se añade esta biblioteca para invertir el orden de un vector
 
 
 // *****************************************************************************
@@ -40,14 +39,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
    //Si estan los vertices de abajo a arriba, ponerlos de arriba a abajo
    if(perfil_original[0][1]<perfil_original[perfil_original.size()-1][1]){
-      std::vector<Tupla3f> reverse;
-      reverse.resize(perfil_original.size());
-      for(int i=0; i<perfil_original.size(); i++){
-         reverse[i]=perfil_original[perfil_original.size()-1-i];
-      }
-      for(int i=0; i<perfil_original.size(); i++){
-         perfil_original[i]=reverse[i];
-      }
+      std::reverse(perfil_original.begin(),perfil_original.end());
    }
 
    int tam=perfil_original.size();
@@ -64,18 +56,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    //Recoger tapa superior
    if(hayTapaSup){   
       tapaSup=perfil_original[0];
-      
-      std::vector<Tupla3f> sinTapa;
-      sinTapa.resize(perfil_original.size()-1);
-      for(int i=0; i<sinTapa.size(); i++){
-         sinTapa[i]=perfil_original[i+1];
-      }
-
-      perfil_original.resize(sinTapa.size());
-      for(int i=0; i<perfil_original.size(); i++){
-         perfil_original[i]=sinTapa[i];
-      }
-
+      perfil_original.erase(perfil_original.begin());
    }
 
    //Recoger tapa inferior
@@ -115,7 +96,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    if(hayTapaSup){
       crearTapas(num_instancias, perfil_original.size(), tapaSup, true);
    }
-   else{
+   else if(conTapaSup){
       tapaSup={0,perfil_original[0][1],0};
       crearTapas(num_instancias, perfil_original.size(), tapaSup, true);
    }
@@ -123,7 +104,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    if(hayTapaInf){
       crearTapas(num_instancias, perfil_original.size(), tapaInf, false);
    }
-   else{
+   else if(conTapaInf){
       tapaInf={0,perfil_original[perfil_original.size()-1][1],0};
       crearTapas(num_instancias, perfil_original.size(), tapaInf, false);
    }
@@ -138,13 +119,12 @@ void ObjRevolucion::crearTapas(int num_instancias, int perfil_size, Tupla3f tapa
    
    if(tapaSup){
       for(int i=0; i<num_instancias; i++){
-         
          a=perfil_size*i;
          b=perfil_size*((i+1)%num_instancias);
          f.push_back({a,tap,b});
-      
       }
    }
+   
    else{
       for(int i=1; i<num_instancias-1; i++){
          a=perfil_size*i-1;

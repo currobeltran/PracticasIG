@@ -9,8 +9,6 @@ Cubo::Cubo(float lado)
 
    v.resize(8);
 
-   float trans=lado*50.0;
-
    v[0]={-lado,-lado,lado};
    v[1]={lado,-lado,lado};
    v[2]={lado,lado,lado};

@@ -9,10 +9,10 @@ Tetraedro::Tetraedro()
 
   v.resize(4);
 
-  v[0]={-50,-50,-50};
-  v[1]={0,-50,50};
-  v[2]={50,-50,-50};
-  v[3]={0,50,0};
+  v[0]={-1,-1,-1};
+  v[1]={0,-1,1};
+  v[2]={1,-1,-1};
+  v[3]={0,1,0};
 
   // inicializar la tabla de caras o triángulos:
   // (es importante en cada cara ordenar los vértices en sentido contrario

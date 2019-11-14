@@ -19,15 +19,18 @@ Escena::Escena()
    tetraedro=new Tetraedro();
    cubo=new Cubo();
    
-   unPly=new ObjPLY("./plys/beethoven.ply");
+   unPly=new ObjPLY("./plys/ant.ply");
    unObjRev=new ObjRevolucion("./plys/peon.ply",40);
    unCono=new Cono(40,1,1,true,true);
+   unCil=new Cilindro(30,1,1,true,true);
 
-   unaLuz=new LuzPosicional({500,500,500},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
+   unaLuz=new LuzPosicional({1,0,0},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
-   unaLuz2=new LuzDireccional({3,10,1},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
+   unaLuz2=new LuzDireccional({0,0,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
+   mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
+   mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
    luces={false};
 }
 
@@ -69,11 +72,28 @@ void Escena::dibujar(){
 
    if(modoIluminacion){
       if(!glIsEnabled(GL_LIGHTING))
-         glEnable(GL_LIGHTING); // se habilitan las luces
-      unObjRev->setMaterial(mat);
-      unCono->setMaterial(mat); 
-      cubo->setMaterial(mat);
+         glEnable(GL_LIGHTING);
+
+      unObjRev->setMaterial(mat); 
+      cubo->setMaterial(mat2);
+      unCono->setMaterial(mat3);
+      unPly->setMaterial(mat);
+      unCil->setMaterial(mat);
+      
+      if(luces[1])
+         unaLuz->activar();
+      else{
+         glDisable(GL_LIGHT1);
+      }
+
+      if(luces[2])
+         unaLuz2->activar();
+      else{
+         glDisable(GL_LIGHT2);
+      }
+
    }
+
    else{
       if(glIsEnabled(GL_LIGHTING))
          glDisable(GL_LIGHTING);
@@ -83,12 +103,32 @@ void Escena::dibujar(){
 
    glPushMatrix();
       glScalef(20,20,20);
-      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glTranslatef(3,0,0);
+      unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glScalef(20,20,20);
       glTranslatef(5,2,2);
       unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-      glTranslatef(-2,-2,-2);
-      unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-      unaLuz2->activar();
+   glPopMatrix();
+
+   glPushMatrix();
+      glScalef(20,20,20);
+      glTranslatef(-5,0,0);
+      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glScalef(5,5,5);
+      glTranslatef(5,0,-10);
+      unPly->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glScalef(20,20,20);
+      glTranslatef(-5,0,-10);
+      unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    glPopMatrix();
    
 }
@@ -163,6 +203,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case '0':
          if(modoIluminacion){
             luces[0]=!luces[0];
+            cout << "Cambiando estado de luz 0" <<endl;
          }
       break;
 
@@ -174,6 +215,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }
          else if(modoIluminacion){
             luces[1]=!luces[1];
+            cout << "Cambiando estado de luz 1" <<endl;
          }
       break;
 
@@ -185,36 +227,42 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }
          else if(modoIluminacion){
             luces[2]=!luces[2];
+            cout << "Cambiando estado de luz 2" <<endl;
          }
       break;
 
       case '3':
          if(modoIluminacion){
             luces[3]=!luces[3];
+            cout << "Cambiando estado de luz 3" <<endl;
          }
       break;
 
       case '4':
          if(modoIluminacion){
             luces[4]=!luces[4];
+            cout << "Cambiando estado de luz 4" <<endl;
          }
       break;
 
       case '5':
          if(modoIluminacion){
             luces[5]=!luces[5];
+            cout << "Cambiando estado de luz 5" <<endl;
          }
       break;
 
       case '6':
          if(modoIluminacion){
             luces[6]=!luces[6];
+            cout << "Cambiando estado de luz 6" <<endl;
          }
       break;
 
       case '7':
          if(modoIluminacion){
             luces[7]=!luces[7];
+            cout << "Cambiando estado de luz 7" <<endl;
          }
       break;
 
@@ -222,6 +270,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          //SELECCION DE TAPAS
          unObjRev->cambiarTapas(tapas);
          unCono->cambiarTapas(tapas);
+         unCil->cambiarTapas(tapas);
+         cout << "Cambiando el estado de las tapas de los objetos de revolución" <<endl;
       break;
 
       case 'I':
