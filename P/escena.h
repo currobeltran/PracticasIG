@@ -61,7 +61,8 @@ class Escena{
         bool modoSolido=false;
         bool modoAjedrez=false;
         bool modoIluminacion=false;
-        std::vector<bool> luces=std::vector<bool>(8,false);
+        bool alfa=false;
+        std::vector<bool> luces=std::vector<bool>(8);
 
     //Booleano que decide si hay que poner o no tapas
         bool tapas=true;

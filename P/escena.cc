@@ -28,9 +28,11 @@ Escena::Escena()
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
    unaLuz2=new LuzDireccional({0,0,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
+
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
+   
    luces={false};
 }
 
@@ -198,6 +200,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             cout << "Visualizando el objeto en modo ajedrez" <<endl;
             modoAjedrez=!modoAjedrez;
          }
+         if(modoIluminacion){
+            cout << "Modo de variación del ángulo alpha" <<endl;
+            alfa=true;
+         }
       break;
 
       case '0':
@@ -279,6 +285,31 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          if(modoMenu==SELVISUALIZACION){
             modoIluminacion=!modoIluminacion;
             cout << "Seleccion del modo de iluminacion" <<endl;
+         }
+      break;
+
+      case 'B':
+         if(modoIluminacion){
+            cout << "Modo de variación del ángulo beta" <<endl;
+            alfa=false;
+         }
+      break;
+
+      case '>':
+         if(alfa && modoMenu==SELVISUALIZACION){
+            unaLuz2->variarAnguloAlpha(-1.0);
+         }
+         else if(!alfa && modoMenu==SELVISUALIZACION){
+            unaLuz2->variarAnguloBeta(-1.0);
+         }
+      break;
+
+      case '<':
+         if(alfa && modoMenu==SELVISUALIZACION){
+            unaLuz2->variarAnguloAlpha(1.0);
+         }
+         else if(!alfa && modoMenu==SELVISUALIZACION){
+            unaLuz2->variarAnguloBeta(1.0);
          }
       break;
 
