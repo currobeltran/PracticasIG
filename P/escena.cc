@@ -70,6 +70,10 @@ void Escena::dibujar(){
 
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
    change_observer();
+   
+   if(glIsEnabled(GL_LIGHTING))
+      glDisable(GL_LIGHTING);
+   
    ejes.draw();
 
    if(modoIluminacion){
@@ -196,7 +200,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
       case 'A':
          //SELECCION DEL MODO AJEDREZ
-         if(modoMenu==SELVISUALIZACION){
+         if(modoMenu==SELVISUALIZACION && !modoIluminacion){
             cout << "Visualizando el objeto en modo ajedrez" <<endl;
             modoAjedrez=!modoAjedrez;
          }
@@ -297,19 +301,23 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
       case '>':
          if(alfa && modoMenu==SELVISUALIZACION){
-            unaLuz2->variarAnguloAlpha(-1.0);
+            unaLuz2->variarAnguloAlpha(1.0);
+            unaLuz2->variarPosicionAngulos();
          }
          else if(!alfa && modoMenu==SELVISUALIZACION){
-            unaLuz2->variarAnguloBeta(-1.0);
+            unaLuz2->variarAnguloBeta(1.0);
+            unaLuz2->variarPosicionAngulos();
          }
       break;
 
       case '<':
          if(alfa && modoMenu==SELVISUALIZACION){
-            unaLuz2->variarAnguloAlpha(1.0);
+            unaLuz2->variarAnguloAlpha(-1.0);
+            unaLuz2->variarPosicionAngulos();
          }
          else if(!alfa && modoMenu==SELVISUALIZACION){
-            unaLuz2->variarAnguloBeta(1.0);
+            unaLuz2->variarAnguloBeta(-1.0);
+            unaLuz2->variarPosicionAngulos();
          }
       break;
 
