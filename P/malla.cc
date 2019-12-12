@@ -156,7 +156,6 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i)
       if(nv.empty()){
          calcular_normales();
       }
-
    }
 
    else{
@@ -268,9 +267,15 @@ void Malla3D::calcular_normales(){
       y=f[i][1];
       z=f[i][2];
 
-      nv[x]=(nv[x]+normalesCaras[i]).normalized();
-      nv[y]=(nv[y]+normalesCaras[i]).normalized();
-      nv[z]=(nv[z]+normalesCaras[i]).normalized();
+      nv[x]=(nv[x]+normalesCaras[i]);
+      nv[y]=(nv[y]+normalesCaras[i]);
+      nv[z]=(nv[z]+normalesCaras[i]);
+   }
+
+   for(int i=0; i<nv.size(); i++){
+      Tupla3f normalizado;
+      normalizado=nv[i].normalized();
+      nv[i]=normalizado;
    }
    
 }

@@ -32,6 +32,8 @@ Escena::Escena()
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
+
+   modelo=new Persona();
    
    luces={false};
 }
@@ -85,6 +87,7 @@ void Escena::dibujar(){
       unCono->setMaterial(mat3);
       unPly->setMaterial(mat);
       unCil->setMaterial(mat);
+      modelo->setMaterial(mat);
       
       if(luces[1])
          unaLuz->activar();
@@ -107,36 +110,41 @@ void Escena::dibujar(){
 
    glEnable(GL_CULL_FACE);
 
-   glPushMatrix();
-      glScalef(20,20,20);
-      glTranslatef(3,0,0);
-      unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   glPopMatrix();
+   // glPushMatrix();
+   //    glScalef(20,20,20);
+   //    glTranslatef(3,0,0);
+   //    unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
+
+   // glPushMatrix();
+   //    glScalef(20,20,20);
+   //    glTranslatef(5,2,2);
+   //    unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
+
+   // glPushMatrix();
+   //    glScalef(20,20,20);
+   //    glTranslatef(-5,0,0);
+   //    cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
+
+   // glPushMatrix();
+   //    glScalef(5,5,5);
+   //    glTranslatef(5,0,-10);
+   //    unPly->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
+
+   // glPushMatrix();
+   //    glScalef(20,20,20);
+   //    glTranslatef(-5,0,-10);
+   //    unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
 
    glPushMatrix();
-      glScalef(20,20,20);
-      glTranslatef(5,2,2);
-      unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glScalef(10,10,10);
+      modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    glPopMatrix();
 
-   glPushMatrix();
-      glScalef(20,20,20);
-      glTranslatef(-5,0,0);
-      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   glPopMatrix();
-
-   glPushMatrix();
-      glScalef(5,5,5);
-      glTranslatef(5,0,-10);
-      unPly->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   glPopMatrix();
-
-   glPushMatrix();
-      glScalef(20,20,20);
-      glTranslatef(-5,0,-10);
-      unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   glPopMatrix();
-   
 }
 
 //**************************************************************************
@@ -321,6 +329,21 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }
       break;
 
+      case 'R':
+         modelo->rotarPiernas(true, true);
+      break;
+
+      case 'E':
+         modelo->rotarPiernas(true, false);
+      break;
+
+      case 'J':
+         if(modoMenu==SELVISUALIZACION){
+            animacion=!animacion;
+            cout << "Animacion activada" <<endl;
+         }
+      break;
+
    }
    return salir;
 }
@@ -391,4 +414,20 @@ void Escena::change_observer()
    glTranslatef( 0.0, 0.0, -Observer_distance );
    glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
    glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
+}
+
+void Escena::animarModeloJerarquico(){
+   int random=rand();
+   if(random%2==0){
+      modelo->modificarCodo(true,false);
+      modelo->modificarBrazo(true,true);
+   }
+   else{
+      modelo->modificarCodo(true,true);
+      modelo->modificarBrazo(true,false);  
+   }
+}
+
+bool Escena::animacionActivada(){
+   return animacion;
 }

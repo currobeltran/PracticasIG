@@ -15,6 +15,7 @@
 #include "luzdireccional.h"
 #include "luzposicional.h"
 #include "material.h"
+#include "persona.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELTAPAS} menu;
 
@@ -51,6 +52,7 @@ class Escena{
         LuzPosicional * unaLuz=nullptr;
         LuzDireccional * unaLuz2=nullptr;
         Material mat, mat2, mat3;
+        Persona * modelo;
    
     // Variable que contiene el modo de dibujado, si inmediato o diferido
         int modoDibujo;
@@ -61,6 +63,7 @@ class Escena{
         bool modoSolido=false;
         bool modoAjedrez=false;
         bool modoIluminacion=false;
+        bool animacion=false;
         bool alfa=false;
         std::vector<bool> luces=std::vector<bool>(8);
 
@@ -69,7 +72,7 @@ class Escena{
         bool tapasant=true;
 
     public:
-
+        
         Escena();
         void inicializar( int UI_window_width, int UI_window_height );
         void redimensionar( int newWidth, int newHeight ) ;
@@ -80,6 +83,10 @@ class Escena{
     // Interacción con la escena
         bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
         void teclaEspecial( int Tecla1, int x, int y );
+
+    // Animacion del modelo jerarquico
+        void animarModeloJerarquico();
+        bool animacionActivada();
 
 };
 #endif
