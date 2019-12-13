@@ -17,8 +17,8 @@ class Brazo : public Malla3D{
     public:
         Brazo();
         void draw(int modo, bool p, bool l, bool s,bool a,bool i);
-        void modificarCodo(bool inc);
-        void modificarBrazo(bool inc);
+        void modificarCodo(float inc);
+        void modificarBrazo(float inc);
         void setMaterial(Material mat);
 };
 

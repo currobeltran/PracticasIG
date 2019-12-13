@@ -15,14 +15,16 @@ class Persona{
         Brazo * brazoDerecho, * brazoIzquierdo;
         Cabeza * cabeza;
         Material * mat;
+        int posicion;
 
     public:
         Persona();
         void draw(int modo, bool p, bool l, bool s,bool a,bool i);
-        void modificarRodillas(bool piernaD, bool inc);
-        void rotarPiernas(bool piernaD, bool inc);
-        void modificarCodo(bool brazoD, bool inc);
-        void modificarBrazo(bool brazoD, bool inc);
+        void modificarRodillas(bool piernaD, float inc);
+        void rotarPiernas(bool piernaD, float inc);
+        void modificarCodo(bool brazoD, float inc);
+        void modificarBrazo(bool brazoD, float inc);
+        void mover();
         void setMaterial(Material mat);
 };
 

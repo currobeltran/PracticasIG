@@ -7,10 +7,12 @@ Persona::Persona(){
     brazoIzquierdo=new Brazo();
     cuerpo=new Tronco();
     cabeza=new Cabeza();
+    posicion=0;
 }
 
 void Persona::draw(int modo, bool p, bool l, bool s,bool a,bool i){
     glPushMatrix();
+        glTranslatef(0,0,posicion/15);
         cabeza->draw(modo,p,l,s,a,i);
         cuerpo->draw(modo,p,l,s,a,i);
         glTranslatef(4.5,3.5,0);
@@ -24,21 +26,21 @@ void Persona::draw(int modo, bool p, bool l, bool s,bool a,bool i){
     glPopMatrix();
 }
 
-void Persona::modificarRodillas(bool piernaD, bool inc){
+void Persona::modificarRodillas(bool piernaD, float inc){
     if(piernaD)
         piernaDerecha->rotacionRodilla(inc);
     else
         piernaIzquierda->rotacionRodilla(inc);
 }
 
-void Persona::rotarPiernas(bool piernaD, bool inc){
+void Persona::rotarPiernas(bool piernaD, float inc){
     if(piernaD)
         piernaDerecha->rotacionPierna(inc);
     else
         piernaIzquierda->rotacionPierna(inc);
 }
 
-void Persona::modificarCodo(bool brazoD, bool inc){
+void Persona::modificarCodo(bool brazoD, float inc){
     if(brazoD){
         brazoDerecho->modificarCodo(inc);
     }
@@ -47,13 +49,17 @@ void Persona::modificarCodo(bool brazoD, bool inc){
     }
 }
 
-void Persona::modificarBrazo(bool brazoD, bool inc){
+void Persona::modificarBrazo(bool brazoD, float inc){
     if(brazoD){
         brazoDerecho->modificarBrazo(inc);
     }
     else{
         brazoIzquierdo->modificarBrazo(inc);
     }
+}
+
+void Persona::mover(){
+    posicion++;
 }
 
 void Persona::setMaterial(Material mat){

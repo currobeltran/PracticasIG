@@ -21,21 +21,15 @@ void Pierna::draw(int modo, bool p, bool l, bool s,bool a,bool i){
     glPopMatrix();
 }
 
-void Pierna::rotacionRodilla(bool incremento){
-    if(incremento && rotarRodilla<45){
-        rotarRodilla+=1.0;
-    }
-    else if(!incremento && rotarRodilla>-1){
-        rotarRodilla-=1.0;
+void Pierna::rotacionRodilla(float incremento){
+    if(rotarRodilla+incremento>=0 && rotarRodilla+incremento<=45){
+        rotarRodilla+=incremento;
     }
 }
 
-void Pierna::rotacionPierna(bool incremento){
-    if(incremento && rotarPierna<45){
-        rotarPierna+=1.0;
-    }
-    else if(!incremento && rotarPierna>-45){
-        rotarPierna-=1.0;
+void Pierna::rotacionPierna(float incremento){
+    if(rotarPierna+incremento>=-45 && rotarPierna+incremento<=0){
+        rotarPierna+=incremento;
     }
 }
 

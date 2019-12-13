@@ -71,6 +71,11 @@ class Escena{
         bool tapas=true;
         bool tapasant=true;
 
+    // Variable que almacena la velocidad de la animacion del modelo jerarquico
+        float velocidad=1.0;
+        int pasos=0;
+        int parte=0;
+
     public:
         
         Escena();
@@ -87,6 +92,10 @@ class Escena{
     // Animacion del modelo jerarquico
         void animarModeloJerarquico();
         bool animacionActivada();
+        void darPaso(bool piernaD);
+        void darPaso2(bool piernaD);
+        void moverBrazo(bool brazoD);
+        void moverBrazo2(bool brazoD);
 
 };
 #endif

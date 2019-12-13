@@ -16,8 +16,8 @@ class Pierna : public Malla3D{
     public:
         Pierna();
         void draw(int modo, bool p, bool l, bool s,bool a,bool i);
-        void rotacionRodilla(bool incremento);
-        void rotacionPierna(bool incremento);
+        void rotacionRodilla(float incremento);
+        void rotacionPierna(float incremento);
         void setMaterial(Material mat);
 };
 

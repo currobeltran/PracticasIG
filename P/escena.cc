@@ -329,12 +329,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }
       break;
 
-      case 'R':
-         modelo->rotarPiernas(true, true);
-      break;
+      case 'G':
 
-      case 'E':
-         modelo->rotarPiernas(true, false);
       break;
 
       case 'J':
@@ -417,17 +413,65 @@ void Escena::change_observer()
 }
 
 void Escena::animarModeloJerarquico(){
-   int random=rand();
-   if(random%2==0){
-      modelo->modificarCodo(true,false);
-      modelo->modificarBrazo(true,true);
+   switch(parte){
+      case 0:
+         darPaso(true);
+         moverBrazo(false);
+         modelo->mover();
+         if(pasos%45==0 && pasos!=0){
+            parte=1;
+         }
+      break;
+
+      case 1:
+         darPaso2(true);
+         moverBrazo2(false);
+         if(pasos%45==0){
+            parte=2;
+         }
+      break;
+
+      case 2:
+         darPaso(false);
+         moverBrazo(true);
+         modelo->mover();
+         if(pasos%45==0){
+            parte=3;
+         }
+      break;
+
+      case 3:
+         darPaso2(false);
+         moverBrazo2(true);
+         if(pasos%45==0){
+            parte=0;
+         }
+      break;
    }
-   else{
-      modelo->modificarCodo(true,true);
-      modelo->modificarBrazo(true,false);  
-   }
+
+   pasos++;
 }
 
 bool Escena::animacionActivada(){
    return animacion;
+}
+
+void Escena::darPaso(bool piernaD){
+   modelo->rotarPiernas(piernaD,-velocidad);
+   modelo->modificarRodillas(piernaD,velocidad);
+}
+
+void Escena::darPaso2(bool piernaD){
+   modelo->rotarPiernas(piernaD,velocidad);
+   modelo->modificarRodillas(piernaD,-velocidad);
+}
+
+void Escena::moverBrazo(bool brazoD){
+   modelo->modificarBrazo(brazoD,-velocidad);
+   modelo->modificarCodo(brazoD,-velocidad);
+}
+
+void Escena::moverBrazo2(bool brazoD){
+   modelo->modificarBrazo(brazoD,velocidad);
+   modelo->modificarCodo(brazoD,velocidad);
 }

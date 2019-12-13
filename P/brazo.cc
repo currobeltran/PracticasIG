@@ -23,21 +23,15 @@ void Brazo::draw(int modo, bool p, bool l, bool s,bool a,bool i){
     glPopMatrix();
 }
 
-void Brazo::modificarCodo(bool inc){
-    if(inc && rotacionCodo<-1){
-        rotacionCodo+=1.0;
-    }
-    else if(!inc && rotacionCodo>-90){
-        rotacionCodo-=1.0;
+void Brazo::modificarCodo(float inc){
+    if(rotacionCodo+inc>=-45 && rotacionCodo+inc<0){
+        rotacionCodo+=inc;
     }
 }
 
-void Brazo::modificarBrazo(bool inc){
-    if(inc && rotacionBrazo<45){
-        rotacionBrazo+=1.0;
-    }
-    else if(!inc && rotacionBrazo>-45){
-        rotacionBrazo-=1.0;
+void Brazo::modificarBrazo(float inc){
+    if(rotacionBrazo+inc>=-45 && rotacionBrazo+inc<=0){
+        rotacionBrazo+=inc;
     }
 }
 
