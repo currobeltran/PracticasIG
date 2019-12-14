@@ -11,15 +11,22 @@ Persona::Persona(){
 }
 
 void Persona::draw(int modo, bool p, bool l, bool s,bool a,bool i){
+    glTranslatef(0,0,posicion/45);
+
     glPushMatrix();
-        glTranslatef(0,0,posicion/15);
         cabeza->draw(modo,p,l,s,a,i);
         cuerpo->draw(modo,p,l,s,a,i);
-        glTranslatef(4.5,3.5,0);
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(4.5,4,0);
         brazoIzquierdo->draw(modo,p,l,s,a,i);
         glTranslatef(-9,0,0);
         brazoDerecho->draw(modo,p,l,s,a,i);
-        glTranslatef(6.5,-5,0);
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(2,0,0);
         piernaIzquierda->draw(modo,p,l,s,a,i);
         glTranslatef(-4,0,0);
         piernaDerecha->draw(modo,p,l,s,a,i);

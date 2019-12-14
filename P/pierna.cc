@@ -10,7 +10,7 @@ Pierna::Pierna(){
 
 void Pierna::draw(int modo, bool p, bool l, bool s,bool a,bool i){
     glPushMatrix();
-        glTranslatef(0,1,0);
+        glTranslatef(0,-1,0);
         glRotatef(rotarPierna,1,0,0);
         parteSuperior->draw(modo,p,l,s,a,i);
         glTranslatef(0,-2,0);
@@ -28,7 +28,7 @@ void Pierna::rotacionRodilla(float incremento){
 }
 
 void Pierna::rotacionPierna(float incremento){
-    if(rotarPierna+incremento>=-45 && rotarPierna+incremento<=0){
+    if(rotarPierna+incremento>=-45 && rotarPierna+incremento<=45){
         rotarPierna+=incremento;
     }
 }

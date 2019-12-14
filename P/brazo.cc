@@ -24,7 +24,7 @@ void Brazo::draw(int modo, bool p, bool l, bool s,bool a,bool i){
 }
 
 void Brazo::modificarCodo(float inc){
-    if(rotacionCodo+inc>=-45 && rotacionCodo+inc<0){
+    if(rotacionCodo+inc>=-90 && rotacionCodo+inc<0){
         rotacionCodo+=inc;
     }
 }

@@ -20,10 +20,12 @@ LuzDireccional::LuzDireccional(const Tupla3f &orientacion, const GLenum idLuz, T
 
 void LuzDireccional::variarAnguloAlpha(float incremento){
     alpha+=incremento;
+    variarPosicionAngulos();
 }
 
 void LuzDireccional::variarAnguloBeta(float incremento){
-    beta+=incremento;    
+    beta+=incremento; 
+    variarPosicionAngulos();   
 }
 
 void LuzDireccional::variarPosicionAngulos(){

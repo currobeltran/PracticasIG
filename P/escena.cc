@@ -223,6 +223,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             luces[0]=!luces[0];
             cout << "Cambiando estado de luz 0" <<endl;
          }
+         if(cambiarModeloManual){
+            gradoLibertad=0;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
+         }
       break;
 
       case '1':
@@ -234,6 +238,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          else if(modoIluminacion){
             luces[1]=!luces[1];
             cout << "Cambiando estado de luz 1" <<endl;
+         }
+         if(cambiarModeloManual){
+            gradoLibertad=1;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
          }
       break;
 
@@ -247,12 +255,20 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             luces[2]=!luces[2];
             cout << "Cambiando estado de luz 2" <<endl;
          }
+         if(cambiarModeloManual){
+            gradoLibertad=2;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
+         }
       break;
 
       case '3':
          if(modoIluminacion){
             luces[3]=!luces[3];
             cout << "Cambiando estado de luz 3" <<endl;
+         }
+         if(cambiarModeloManual){
+            gradoLibertad=3;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
          }
       break;
 
@@ -261,12 +277,20 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             luces[4]=!luces[4];
             cout << "Cambiando estado de luz 4" <<endl;
          }
+         if(cambiarModeloManual){
+            gradoLibertad=4;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
+         }
       break;
 
       case '5':
          if(modoIluminacion){
             luces[5]=!luces[5];
             cout << "Cambiando estado de luz 5" <<endl;
+         }
+         if(cambiarModeloManual){
+            gradoLibertad=5;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
          }
       break;
 
@@ -275,12 +299,20 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             luces[6]=!luces[6];
             cout << "Cambiando estado de luz 6" <<endl;
          }
+         if(cambiarModeloManual){
+            gradoLibertad=6;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
+         }
       break;
 
       case '7':
          if(modoIluminacion){
             luces[7]=!luces[7];
             cout << "Cambiando estado de luz 7" <<endl;
+         }
+         if(cambiarModeloManual){
+            gradoLibertad=7;
+            cout << "Seleccionado grado libertad " << gradoLibertad <<endl;
          }
       break;
 
@@ -310,27 +342,98 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case '>':
          if(alfa && modoMenu==SELVISUALIZACION){
             unaLuz2->variarAnguloAlpha(1.0);
-            unaLuz2->variarPosicionAngulos();
          }
          else if(!alfa && modoMenu==SELVISUALIZACION){
             unaLuz2->variarAnguloBeta(1.0);
-            unaLuz2->variarPosicionAngulos();
          }
       break;
 
       case '<':
          if(alfa && modoMenu==SELVISUALIZACION){
             unaLuz2->variarAnguloAlpha(-1.0);
-            unaLuz2->variarPosicionAngulos();
          }
          else if(!alfa && modoMenu==SELVISUALIZACION){
             unaLuz2->variarAnguloBeta(-1.0);
-            unaLuz2->variarPosicionAngulos();
          }
       break;
 
       case 'G':
+         if(modoMenu==SELVISUALIZACION){
+            cambiarModeloManual=!cambiarModeloManual;
+            cout << "Seleccione grado de libertad a cambiar" <<endl;
+         }
+      break;
 
+      case '+':
+         switch(gradoLibertad){
+            case 0:
+               modelo->modificarRodillas(true,1.0);
+            break;
+
+            case 1:
+               modelo->modificarRodillas(false,1.0);
+            break;
+
+            case 2:
+               modelo->rotarPiernas(true,1.0);
+            break;
+
+            case 3:
+               modelo->rotarPiernas(false,1.0);
+            break;
+
+            case 4:
+               modelo->modificarCodo(true,1.0);
+            break;
+
+            case 5:
+               modelo->modificarCodo(false,1.0);
+            break;
+
+            case 6:
+               modelo->modificarBrazo(true,1.0);
+            break;
+
+            case 7:
+               modelo->modificarBrazo(false,1.0);
+            break;
+         }
+      break;
+
+      case '-':
+         switch(gradoLibertad){
+            case 0:
+               modelo->modificarRodillas(true,-1.0);
+            break;
+
+            case 1:
+               modelo->modificarRodillas(false,-1.0);
+            break;
+
+            case 2:
+               modelo->rotarPiernas(true,-1.0);
+            break;
+
+            case 3:
+               modelo->rotarPiernas(false,-1.0);
+            break;
+
+            case 4:
+               modelo->modificarCodo(true,-1.0);
+            break;
+
+            case 5:
+               modelo->modificarCodo(false,-1.0);
+            break;
+
+            case 6:
+               modelo->modificarBrazo(true,-1.0);
+            break;
+
+            case 7:
+               modelo->modificarBrazo(false,-1.0);
+            break;
+         }
       break;
 
       case 'J':
@@ -416,7 +519,9 @@ void Escena::animarModeloJerarquico(){
    switch(parte){
       case 0:
          darPaso(true);
+         darPaso2(false);
          moverBrazo(false);
+         moverBrazo2(true);
          modelo->mover();
          if(pasos%45==0 && pasos!=0){
             parte=1;
@@ -425,7 +530,10 @@ void Escena::animarModeloJerarquico(){
 
       case 1:
          darPaso2(true);
+         darPaso(false);
+         moverBrazo(true);
          moverBrazo2(false);
+         modelo->mover();
          if(pasos%45==0){
             parte=2;
          }
@@ -433,7 +541,9 @@ void Escena::animarModeloJerarquico(){
 
       case 2:
          darPaso(false);
-         moverBrazo(true);
+         darPaso2(true);
+         moverBrazo(false);
+         moverBrazo2(true);
          modelo->mover();
          if(pasos%45==0){
             parte=3;
@@ -442,7 +552,10 @@ void Escena::animarModeloJerarquico(){
 
       case 3:
          darPaso2(false);
-         moverBrazo2(true);
+         darPaso(true);
+         moverBrazo(true);
+         moverBrazo2(false);
+         modelo->mover();
          if(pasos%45==0){
             parte=0;
          }
