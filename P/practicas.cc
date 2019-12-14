@@ -90,6 +90,8 @@ void special_keys( int tecla, int x, int y )
 void animacion(){
    if(escena!=NULL && escena->animacionActivada())
       escena->animarModeloJerarquico();
+   if(escena!=NULL && escena->animacionLuzActivada())
+      escena->animarLuz();
    glutPostRedisplay();
 }
 

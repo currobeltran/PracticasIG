@@ -16,6 +16,7 @@
 #include "luzposicional.h"
 #include "material.h"
 #include "persona.h"
+#include "cuadro.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELTAPAS} menu;
 
@@ -53,6 +54,8 @@ class Escena{
         LuzDireccional * unaLuz2=nullptr;
         Material mat, mat2, mat3;
         Persona * modelo;
+        Cuadro * cuadro=nullptr, * cuadro2=nullptr;
+        Textura * textura1, * textura2;
    
     // Variable que contiene el modo de dibujado, si inmediato o diferido
         int modoDibujo;
@@ -64,6 +67,7 @@ class Escena{
         bool modoAjedrez=false;
         bool modoIluminacion=false;
         bool animacion=false;
+        bool animacionLuz=false;
         bool alfa=false;
         std::vector<bool> luces=std::vector<bool>(8);
 
@@ -77,6 +81,7 @@ class Escena{
         int parte=0;
         int gradoLibertad=0;
         bool cambiarModeloManual=false;
+        int variacionLuzPuntual=0;
 
     public:
         
@@ -98,6 +103,10 @@ class Escena{
         void darPaso2(bool piernaD);
         void moverBrazo(bool brazoD);
         void moverBrazo2(bool brazoD);
+
+    // Animacion luz puntual
+        void animarLuz();
+        bool animacionLuzActivada();
 
 };
 #endif

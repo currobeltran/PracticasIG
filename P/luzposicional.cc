@@ -14,3 +14,8 @@ LuzPosicional::LuzPosicional(const Tupla3f& orientacion, const GLenum idLuz, Tup
     posicion[3]=1;
     
 }
+
+void LuzPosicional::variarPosicion(int variacion){
+    posicion[0]=sin(variacion*(M_PI/180))*40;
+    posicion[2]=cos(variacion*(M_PI/180))*40;
+}

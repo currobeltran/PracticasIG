@@ -75,7 +75,10 @@ void Malla3D::draw_ModoInmediato(bool p, bool l, bool s)
       modoDibujado(GL_LINE, true);
    }
    if(s){
-      color={0.0,0.0,1.0};
+      if(!ct.empty())
+         color={1.0,1.0,1.0};
+      else
+         color={0.0,0.0,1.0};
       seleccionColorInmediato(color);
       modoDibujado(GL_FILL, true);
    }
@@ -130,7 +133,10 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
       modoDibujado(GL_LINE, false);
    }
    if(s){
-      color={0.0,0.0,1.0};
+      if(!ct.empty())
+         color={1.0,1.0,1.0};
+      else
+         color={0.0,0.0,1.0};
       seleccionColorDiferido(color, id_vbo_col_solido);
       modoDibujado(GL_FILL, false);
    }
@@ -145,7 +151,7 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato, a draw_ModoDiferido o draw_ModoInmediatoAjedrez
 
-void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i)
+void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t)
 {
 
    if(i){
@@ -157,11 +163,20 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i)
          calcular_normales();
       }
    }
-
+   
    else{
       glEnable(GL_FLAT);
    }
-   
+
+   if(!ct.empty() && tex==nullptr){
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer( 2,GL_FLOAT, 0, ct[0]);
+
+      tex=t;
+
+      tex->activar();
+   }
+
    if(modo==2)
       draw_ModoDiferido(p,l,s);
    

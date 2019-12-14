@@ -12,6 +12,7 @@
 
 #include "aux.h"
 #include "material.h"
+#include "textura.h"
 
 // *****************************************************************************
 //
@@ -32,7 +33,7 @@ class Malla3D
    // función que redibuja el objeto
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
-   void draw(int modo, bool p, bool l, bool s, bool a, bool i) ;
+   void draw(int modo, bool p, bool l, bool s, bool a, bool i, Textura * t=nullptr) ;
 
    // funcion para establecer el color de una figura
    void setColor(Tupla3f color, std::vector<Tupla3f> &vectorc);
@@ -74,6 +75,10 @@ class Malla3D
    std::vector<Tupla3f> nv; // vector de normales a los vertices
    Material * m; 
 
+   std::vector<Tupla2f> ct; // vector de texturas
+
+   Textura * tex = nullptr;
+
    GLuint id_vbo_ver=0;
    GLuint id_vbo_tri=0;
    GLuint id_vbo_col_linea=0;
@@ -81,8 +86,6 @@ class Malla3D
    GLuint id_vbo_col_solido=0;
    GLuint id_vbo_nor=0;
 
-
-   // completar: tabla de colores, tabla de normales de vértices
 } ;
 
 

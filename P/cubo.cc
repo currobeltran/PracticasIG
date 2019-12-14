@@ -38,5 +38,6 @@ Cubo::Cubo(float lado)
    f[11]={5,1,0};
 
    c.resize(8);
+
 }
 

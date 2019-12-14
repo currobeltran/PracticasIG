@@ -18,13 +18,15 @@ Escena::Escena()
 
    tetraedro=new Tetraedro();
    cubo=new Cubo();
+   cuadro=new Cuadro(20);
+   cuadro2=new Cuadro(20);
    
    unPly=new ObjPLY("./plys/ant.ply");
    unObjRev=new ObjRevolucion("./plys/peon.ply",40);
    unCono=new Cono(40,1,1,true,true);
    unCil=new Cilindro(30,1,1,true,true);
 
-   unaLuz=new LuzPosicional({1,0,0},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
+   unaLuz=new LuzPosicional({40,40,40},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
    unaLuz2=new LuzDireccional({0,0,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
@@ -32,6 +34,9 @@ Escena::Escena()
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
+
+   textura1=new Textura("./img/bricks.jpg");
+   textura2=new Textura("./img/cuadro.jpg");
 
    modelo=new Persona();
    
@@ -140,9 +145,14 @@ void Escena::dibujar(){
    //    unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    // glPopMatrix();
 
+   // glPushMatrix();
+   //    glScalef(10,10,10);
+   //    modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   // glPopMatrix();
+
    glPushMatrix();
-      glScalef(10,10,10);
-      modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glScalef(20,20,20);
+      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion,textura2);
    glPopMatrix();
 
 }
@@ -365,80 +375,91 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       break;
 
       case '+':
-         switch(gradoLibertad){
-            case 0:
-               modelo->modificarRodillas(true,1.0);
-            break;
+         if(cambiarModeloManual){
+            switch(gradoLibertad){
+               case 0:
+                  modelo->modificarRodillas(true,1.0);
+               break;
 
-            case 1:
-               modelo->modificarRodillas(false,1.0);
-            break;
+               case 1:
+                  modelo->modificarRodillas(false,1.0);
+               break;
 
-            case 2:
-               modelo->rotarPiernas(true,1.0);
-            break;
+               case 2:
+                  modelo->rotarPiernas(true,1.0);
+               break;
 
-            case 3:
-               modelo->rotarPiernas(false,1.0);
-            break;
+               case 3:
+                  modelo->rotarPiernas(false,1.0);
+               break;
 
-            case 4:
-               modelo->modificarCodo(true,1.0);
-            break;
+               case 4:
+                  modelo->modificarCodo(true,1.0);
+               break;
 
-            case 5:
-               modelo->modificarCodo(false,1.0);
-            break;
+               case 5:
+                  modelo->modificarCodo(false,1.0);
+               break;
 
-            case 6:
-               modelo->modificarBrazo(true,1.0);
-            break;
+               case 6:
+                  modelo->modificarBrazo(true,1.0);
+               break;
 
-            case 7:
-               modelo->modificarBrazo(false,1.0);
-            break;
+               case 7:
+                  modelo->modificarBrazo(false,1.0);
+               break;
+            }
          }
       break;
 
       case '-':
-         switch(gradoLibertad){
-            case 0:
-               modelo->modificarRodillas(true,-1.0);
-            break;
+         if(cambiarModeloManual){
+            switch(gradoLibertad){
+               case 0:
+                  modelo->modificarRodillas(true,-1.0);
+               break;
 
-            case 1:
-               modelo->modificarRodillas(false,-1.0);
-            break;
+               case 1:
+                  modelo->modificarRodillas(false,-1.0);
+               break;
 
-            case 2:
-               modelo->rotarPiernas(true,-1.0);
-            break;
+               case 2:
+                  modelo->rotarPiernas(true,-1.0);
+               break;
 
-            case 3:
-               modelo->rotarPiernas(false,-1.0);
-            break;
+               case 3:
+                  modelo->rotarPiernas(false,-1.0);
+               break;
 
-            case 4:
-               modelo->modificarCodo(true,-1.0);
-            break;
+               case 4:
+                  modelo->modificarCodo(true,-1.0);
+               break;
 
-            case 5:
-               modelo->modificarCodo(false,-1.0);
-            break;
+               case 5:
+                  modelo->modificarCodo(false,-1.0);
+               break;
 
-            case 6:
-               modelo->modificarBrazo(true,-1.0);
-            break;
+               case 6:
+                  modelo->modificarBrazo(true,-1.0);
+               break;
 
-            case 7:
-               modelo->modificarBrazo(false,-1.0);
-            break;
+               case 7:
+                  modelo->modificarBrazo(false,-1.0);
+               break;
+            }
          }
       break;
 
       case 'J':
          if(modoMenu==SELVISUALIZACION){
             animacion=!animacion;
+            cout << "Animacion activada" <<endl;
+         }
+      break;
+
+      case 'X':
+         if(modoMenu==SELVISUALIZACION && modoIluminacion){
+            animacionLuz=!animacionLuz;
             cout << "Animacion activada" <<endl;
          }
       break;
@@ -569,6 +590,10 @@ bool Escena::animacionActivada(){
    return animacion;
 }
 
+bool Escena::animacionLuzActivada(){
+   return animacionLuz;
+}
+
 void Escena::darPaso(bool piernaD){
    modelo->rotarPiernas(piernaD,-velocidad);
    modelo->modificarRodillas(piernaD,velocidad);
@@ -587,4 +612,9 @@ void Escena::moverBrazo(bool brazoD){
 void Escena::moverBrazo2(bool brazoD){
    modelo->modificarBrazo(brazoD,velocidad);
    modelo->modificarCodo(brazoD,velocidad);
+}
+
+void Escena::animarLuz(){
+   variacionLuzPuntual++;
+   unaLuz->variarPosicion(variacionLuzPuntual);
 }
