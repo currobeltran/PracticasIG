@@ -6,6 +6,8 @@
 
 
 class LuzPosicional : public Luz{
+    private:
+        Tupla3f inicial;
     
     public:
         LuzPosicional(const Tupla3f& orientacion, const GLenum idLuz, Tupla4f ambiente, 

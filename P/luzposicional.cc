@@ -12,10 +12,12 @@ LuzPosicional::LuzPosicional(const Tupla3f& orientacion, const GLenum idLuz, Tup
     posicion[1]=orientacion[1];
     posicion[2]=orientacion[2];
     posicion[3]=1;
+
+    inicial=posicion;
     
 }
 
 void LuzPosicional::variarPosicion(int variacion){
-    posicion[0]=sin(variacion*(M_PI/180))*40;
-    posicion[2]=cos(variacion*(M_PI/180))*40;
+    posicion[0]=sin(variacion*(M_PI/180))*inicial[0];
+    posicion[2]=cos(variacion*(M_PI/180))*inicial[2];
 }

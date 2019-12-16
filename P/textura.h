@@ -9,7 +9,7 @@ class Textura{
         GLuint textura_id = 0;
         unsigned char * data;
         int width,height;
-        jpg::Imagen * pimg=NULL;
+        jpg::Imagen * pimg=nullptr;
     
     public:
         Textura(std::string archivo);

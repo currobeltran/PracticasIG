@@ -63,7 +63,7 @@ class Escena{
     // Variables que contiene el modo de visualizacion, si linea, punto, solido o ajedrez
         bool modoPunto=false;
         bool modoLinea=false;
-        bool modoSolido=false;
+        bool modoSolido=true;
         bool modoAjedrez=false;
         bool modoIluminacion=false;
         bool animacion=false;

@@ -168,7 +168,7 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t)
       glEnable(GL_FLAT);
    }
 
-   if(!ct.empty() && tex==nullptr){
+   if(!ct.empty()){
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glTexCoordPointer( 2,GL_FLOAT, 0, ct[0]);
 

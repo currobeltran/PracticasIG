@@ -75,9 +75,9 @@ class Malla3D
    std::vector<Tupla3f> nv; // vector de normales a los vertices
    Material * m; 
 
-   std::vector<Tupla2f> ct; // vector de texturas
-
    Textura * tex = nullptr;
+
+   std::vector<Tupla2f> ct; // vector de texturas
 
    GLuint id_vbo_ver=0;
    GLuint id_vbo_tri=0;

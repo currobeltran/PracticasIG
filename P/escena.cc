@@ -35,8 +35,8 @@ Escena::Escena()
    mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
    mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
 
-   textura1=new Textura("./img/bricks.jpg");
-   textura2=new Textura("./img/cuadro.jpg");
+   textura1=new Textura("./img/cuadro.jpg");
+   textura2=new Textura("./img/bricks.jpg");
 
    modelo=new Persona();
    
@@ -81,7 +81,9 @@ void Escena::dibujar(){
    if(glIsEnabled(GL_LIGHTING))
       glDisable(GL_LIGHTING);
    
+   glDisable(GL_TEXTURE_2D);
    ejes.draw();
+   glEnable(GL_TEXTURE_2D);
 
    if(modoIluminacion){
       if(!glIsEnabled(GL_LIGHTING))
@@ -93,7 +95,9 @@ void Escena::dibujar(){
       unPly->setMaterial(mat);
       unCil->setMaterial(mat);
       modelo->setMaterial(mat);
-      
+      cuadro->setMaterial(mat);
+      cuadro2->setMaterial(mat);
+
       if(luces[1])
          unaLuz->activar();
       else{
@@ -151,8 +155,9 @@ void Escena::dibujar(){
    // glPopMatrix();
 
    glPushMatrix();
-      glScalef(20,20,20);
-      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion,textura2);
+      cuadro2->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura2);
+      glTranslatef(30,30,30);
+      cuadro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura1);
    glPopMatrix();
 
 }

@@ -2,7 +2,6 @@
 #include "jpg_imagen.hpp"
 
 Textura::Textura(std::string archivo){
-    glGenTextures(1, &textura_id);
 
     pimg=new jpg::Imagen(archivo);
 
@@ -10,6 +9,9 @@ Textura::Textura(std::string archivo){
     height=pimg->tamY();
 
     data=pimg->leerPixels();
+    
+    glGenTextures(1, &textura_id);
+    
 }
 
 void Textura::activar(){
