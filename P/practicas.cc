@@ -87,12 +87,26 @@ void special_keys( int tecla, int x, int y )
 	glutPostRedisplay();
 }
 
+// Se comienzan a añadir funciones desde aqui
+
 void animacion(){
    if(escena!=NULL && escena->animacionActivada())
       escena->animarModeloJerarquico();
    if(escena!=NULL && escena->animacionLuzActivada())
       escena->animarLuz();
    glutPostRedisplay();
+}
+
+void clickRaton(int boton, int estado, int x, int y){
+   if(escena!=NULL){
+      escena->clickRaton(boton,estado,x,y);
+   }
+}
+
+void ratonMovido(int x, int y){
+   if(escena!=NULL){
+      escena->ratonMovido(x,y);
+   }
 }
 
 //***************************************************************************
@@ -147,6 +161,12 @@ int main( int argc, char **argv )
 
    // asignacion de la animacion al evento correspondiente
    glutIdleFunc(animacion);
+
+   // movimientos de camara usando raton y teclado
+
+   glutMouseFunc(clickRaton);
+
+   glutMotionFunc(ratonMovido);
 
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX

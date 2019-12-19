@@ -17,6 +17,7 @@
 #include "material.h"
 #include "persona.h"
 #include "cuadro.h"
+#include "camara.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELTAPAS} menu;
 
@@ -83,6 +84,12 @@ class Escena{
         bool cambiarModeloManual=false;
         int variacionLuzPuntual=0;
 
+    // Vector de camaras
+        Camara * camaras[8];
+        int camaraActiva=0;
+        int estadoRaton=0;
+        int xant=0, yant=0;
+
     public:
         
         Escena();
@@ -107,6 +114,11 @@ class Escena{
     // Animacion luz puntual
         void animarLuz();
         bool animacionLuzActivada();
+
+    // Movimiento del raton
+        void ratonMovido(int x, int y);
+        void clickRaton(int boton, int estado, int x, int y);
+        void zoom(int boton);
 
 };
 #endif

@@ -41,6 +41,8 @@ Escena::Escena()
    modelo=new Persona();
    
    luces={false};
+
+   camaras[0]=new Camara({10,10,10},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
 }
 
 //**************************************************************************
@@ -125,17 +127,17 @@ void Escena::dibujar(){
    //    unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    // glPopMatrix();
 
-   // glPushMatrix();
-   //    glScalef(20,20,20);
-   //    glTranslatef(5,2,2);
-   //    unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
+   glPushMatrix();
+      glScalef(0.1,0.1,0.1);
+      glTranslatef(5,2,2);
+      unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
 
-   // glPushMatrix();
-   //    glScalef(20,20,20);
-   //    glTranslatef(-5,0,0);
-   //    cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
+   glPushMatrix();
+      glScalef(0.1,0.1,0.1);
+      glTranslatef(-5,0,0);
+      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
 
    // glPushMatrix();
    //    glScalef(5,5,5);
@@ -150,15 +152,15 @@ void Escena::dibujar(){
    // glPopMatrix();
 
    // glPushMatrix();
-   //    glScalef(10,10,10);
+   //    glScalef(0.1,0.1,0.1);
    //    modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    // glPopMatrix();
 
-   glPushMatrix();
-      cuadro2->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura2);
-      glTranslatef(30,30,30);
-      cuadro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura1);
-   glPopMatrix();
+   // glPushMatrix();
+   //    cuadro2->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura2);
+   //    glTranslatef(30,30,30);
+   //    cuadro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura1);
+   // glPopMatrix();
 
 }
 
@@ -512,8 +514,7 @@ void Escena::change_projection( const float ratio_xy )
 {
    glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
-   const float wx = float(Height)*ratio_xy ;
-   glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
+   camaras[camaraActiva]->setProyeccion();
 }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -536,9 +537,7 @@ void Escena::change_observer()
    // posicion del observador
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   glTranslatef( 0.0, 0.0, -Observer_distance );
-   glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
-   glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
+   camaras[camaraActiva]->setObserver();
 }
 
 void Escena::animarModeloJerarquico(){
@@ -622,4 +621,37 @@ void Escena::moverBrazo2(bool brazoD){
 void Escena::animarLuz(){
    variacionLuzPuntual++;
    unaLuz->variarPosicion(variacionLuzPuntual);
+}
+
+void Escena::ratonMovido( int x, int y ){
+   if(estadoRaton==1){
+      camaras[camaraActiva]->girar(x-xant,y-yant);
+      xant=x;
+      yant=y;
+   }
+}
+
+void Escena::clickRaton(int boton, int estado, int x, int y){
+   if(boton==GLUT_RIGHT_BUTTON){
+      if(estado==GLUT_DOWN){
+         estadoRaton=1;
+         xant=x;
+         yant=y;
+      }
+      else{
+         estadoRaton=0;
+      }
+   }
+   else if(boton==3 || boton==4){
+      zoom(boton);
+   }
+}
+
+void Escena::zoom(int boton){
+   if(boton==3){
+      camaras[camaraActiva]->zoom(1);
+   }
+   else{
+      camaras[camaraActiva]->zoom(-1);
+   }
 }
