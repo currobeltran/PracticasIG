@@ -15,10 +15,7 @@ Textura::Textura(std::string archivo){
 }
 
 void Textura::activar(){
-    glEnable(GL_TEXTURE_2D);
-
     glBindTexture(GL_TEXTURE_2D, textura_id );
     
     gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGB, width,height,GL_RGB,GL_UNSIGNED_BYTE,data);
-
 }

@@ -89,6 +89,9 @@ class Escena{
         int camaraActiva=0;
         int estadoRaton=0;
         int xant=0, yant=0;
+        int xsel=0, ysel=0;
+        bool seleccionado;
+        bool menuCamara=false;
 
     public:
         
@@ -118,7 +121,10 @@ class Escena{
     // Movimiento del raton
         void ratonMovido(int x, int y);
         void clickRaton(int boton, int estado, int x, int y);
-        void zoom(int boton);
+
+    // Interaccion con el raton
+        void dibujaSeleccion();
+        void comprobarSeleccionados();
 
 };
 #endif

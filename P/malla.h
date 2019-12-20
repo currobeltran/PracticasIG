@@ -28,31 +28,30 @@ class Malla3D
    void draw_ModoInmediato(bool p, bool l, bool s);
 
    // dibuja el objeto en modo diferido (usando VBOs)
-   void draw_ModoDiferido(bool p, bool l, bool s);
+   void draw_ModoDiferido(bool p, bool l, bool s,Tupla3f color);
 
    // función que redibuja el objeto
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
-   void draw(int modo, bool p, bool l, bool s, bool a, bool i, Textura * t=nullptr) ;
+   void draw(int modo, bool p, bool l, bool s, bool a, bool i, Textura * t=nullptr, Tupla3f color={-1,-1,-1}) ;
 
    // funcion para establecer el color de una figura
    void setColor(Tupla3f color, std::vector<Tupla3f> &vectorc);
 
+   void setNuevoColor(Tupla3f color);
+
    //Diferentes modos de visualizacion
    void modoDibujado(GLenum modo, bool inmediato);
 
-   //Seleccion del color modoInmediato
-   void seleccionColorInmediato(Tupla3f color);
-
    //Seleccion del color modoDiferido
-   void seleccionColorDiferido(Tupla3f color, GLuint VBO);
+   void seleccionColorDiferido(std::vector<Tupla3f> color, GLuint VBO);
 
    //Funcion para modo ajedrez
    void draw_ModoInmediatoAjedrez();
 
    //Funcion para establecer el material del que se hace la malla
    void setMaterial(Material mat);
-   
+
    protected:
 
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
@@ -70,7 +69,7 @@ class Malla3D
    std::vector<Tupla3i> f; // una terna de 3 enteros por cada cara o triángulo
    std::vector<Tupla3i> f2; // tabla de caras sin tapas
 
-   std::vector<Tupla3f> c; // terna de 3 floats para cada vertice
+   std::vector<Tupla3f> c, cpun, cl, cs; // terna de 3 floats para cada vertice 
    
    std::vector<Tupla3f> nv; // vector de normales a los vertices
    Material * m; 

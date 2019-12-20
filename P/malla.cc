@@ -11,9 +11,7 @@
 
 void Malla3D::setColor(Tupla3f color, std::vector<Tupla3f> &vectorc){
    for(int i=0; i<vectorc.size(); i++){
-      for(int j=0; j<3; j++){
-         vectorc[i][j]=color[j];
-      }
+      vectorc[i]=color;
    }
 }
 
@@ -31,17 +29,14 @@ void Malla3D::modoDibujado(GLenum modo, bool inmediato){
    }
 }
 
-void Malla3D::seleccionColorInmediato(Tupla3f color){
-   setColor(color,c);
-
-   glColorPointer(3, GL_FLOAT, 0, c.data());
+void Malla3D::setNuevoColor(Tupla3f color){
+   setColor(color,cs);
 }
 
-void Malla3D::seleccionColorDiferido(Tupla3f color, GLuint VBO){
+void Malla3D::seleccionColorDiferido(std::vector<Tupla3f> color, GLuint VBO){
 
    if(VBO==0){
-      setColor(color,c);
-      VBO=CrearVBO(GL_ARRAY_BUFFER, c.size() * sizeof(float) * 3, c.data());
+      VBO=CrearVBO(GL_ARRAY_BUFFER, c.size() * sizeof(float) * 3, color.data());
    }
 
    glBindBuffer(GL_ARRAY_BUFFER,VBO);
@@ -61,28 +56,22 @@ void Malla3D::draw_ModoInmediato(bool p, bool l, bool s)
 
    //Seleccion de modos entre punto, linea y solido
 
-   Tupla3f color;
    glEnableClientState(GL_COLOR_ARRAY);
 
    if(p){
-      color={1.0,0.0,0.0};
-      seleccionColorInmediato(color);
+      glColorPointer(3, GL_FLOAT, 0, cpun.data());
       modoDibujado(GL_POINT, true);
    }
    if(l){
-      color={0.0,1.0,0.0};
-      seleccionColorInmediato(color);
+      glColorPointer(3, GL_FLOAT, 0, cl.data());
       modoDibujado(GL_LINE, true);
    }
    if(s){
-      if(!ct.empty())
-         color={1.0,1.0,1.0};
-      else
-         color={0.0,0.0,1.0};
-      seleccionColorInmediato(color);
+      glColorPointer(3, GL_FLOAT, 0, cs.data());
       modoDibujado(GL_FILL, true);
    }
-
+   
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
@@ -90,7 +79,7 @@ void Malla3D::draw_ModoInmediato(bool p, bool l, bool s)
 // -----------------------------------------------------------------------------
 // Visualización en modo diferido con 'glDrawElements' (usando VBOs)
 
-void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
+void Malla3D::draw_ModoDiferido(bool p, bool l, bool s,Tupla3f color)
 {
    //Si no se han creado los vbo, se crean y se guardan sus identificadores
    if(id_vbo_ver==0 && id_vbo_tri==0){
@@ -120,29 +109,22 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
    //Inicio array colores y dibujo
    glEnableClientState(GL_COLOR_ARRAY);
 
-   Tupla3f color;
-
    if(p){
-      color={1.0,0.0,0.0};
-      seleccionColorDiferido(color, id_vbo_col_punto);
+      seleccionColorDiferido(cpun, id_vbo_col_punto);
       modoDibujado(GL_POINT, false);
    }
    if(l){
-      color={0.0,1.0,0.0};
-      seleccionColorDiferido(color, id_vbo_col_linea);
+      seleccionColorDiferido(cl, id_vbo_col_linea);
       modoDibujado(GL_LINE, false);
    }
    if(s){
-      if(!ct.empty())
-         color={1.0,1.0,1.0};
-      else
-         color={0.0,0.0,1.0};
-      seleccionColorDiferido(color, id_vbo_col_solido);
+      seleccionColorDiferido(cs, id_vbo_col_solido);
       modoDibujado(GL_FILL, false);
    }
 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 );
 
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
    glDisableClientState(GL_VERTEX_ARRAY);
@@ -151,7 +133,7 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s)
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato, a draw_ModoDiferido o draw_ModoInmediatoAjedrez
 
-void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t)
+void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t, Tupla3f color)
 {
 
    if(i){
@@ -169,7 +151,6 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t)
    }
 
    if(!ct.empty()){
-      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glTexCoordPointer( 2,GL_FLOAT, 0, ct[0]);
 
       tex=t;
@@ -177,8 +158,27 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t)
       tex->activar();
    }
 
+   if(tex!=nullptr)
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+   if(cpun.empty()){
+      cpun.resize(c.size());
+      setColor({1.0,0,0},cpun);
+   }
+   if(cl.empty()){
+      cl.resize(c.size());
+      setColor({0,1.0,0},cl);
+   }
+   if(cs.empty()){
+      cs.resize(c.size());
+      if(ct.empty())
+         setColor({0,0,1.0},cs);
+      else
+         setColor({1.0,1.0,1.0},cs);
+   }
+
    if(modo==2)
-      draw_ModoDiferido(p,l,s);
+      draw_ModoDiferido(p,l,s,color);
    
    else if(modo==1 && !a)
       draw_ModoInmediato(p,l,s);

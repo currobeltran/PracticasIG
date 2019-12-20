@@ -8,16 +8,16 @@ Pierna::Pierna(){
     rotarPierna=0.0;
 }
 
-void Pierna::draw(int modo, bool p, bool l, bool s,bool a,bool i){
+void Pierna::draw(int modo, bool p, bool l, bool s,bool a,bool i,Tupla3f color){
     glPushMatrix();
         glTranslatef(0,-1,0);
         glRotatef(rotarPierna,1,0,0);
-        parteSuperior->draw(modo,p,l,s,a,i);
+        parteSuperior->draw(modo,p,l,s,a,i,nullptr,color);
         glTranslatef(0,-2,0);
-        rodilla->draw(modo,p,l,s,a,i);
+        rodilla->draw(modo,p,l,s,a,i,nullptr,color);
         glRotatef(rotarRodilla,1,0,0);
         glTranslatef(0,-2,0);
-        parteInferior->draw(modo,p,l,s,a,i);
+        parteInferior->draw(modo,p,l,s,a,i,nullptr,color);
     glPopMatrix();
 }
 

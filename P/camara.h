@@ -35,6 +35,7 @@ class Camara{
         void rotarExaminar(float angle, bool x);
         void rotarFP(float angle, bool x);
 
+        void setPuntoRotacion(Tupla3f newAt);
 };
 
 #endif

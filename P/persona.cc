@@ -10,26 +10,26 @@ Persona::Persona(){
     posicion=0;
 }
 
-void Persona::draw(int modo, bool p, bool l, bool s,bool a,bool i){
+void Persona::draw(int modo, bool p, bool l, bool s,bool a,bool i, Tupla3f color){
     glTranslatef(0,0,posicion/45);
 
     glPushMatrix();
-        cabeza->draw(modo,p,l,s,a,i);
-        cuerpo->draw(modo,p,l,s,a,i);
+        cabeza->draw(modo,p,l,s,a,i,color);
+        cuerpo->draw(modo,p,l,s,a,i,color);
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(4.5,4,0);
-        brazoIzquierdo->draw(modo,p,l,s,a,i);
+        brazoIzquierdo->draw(modo,p,l,s,a,i,color);
         glTranslatef(-9,0,0);
-        brazoDerecho->draw(modo,p,l,s,a,i);
+        brazoDerecho->draw(modo,p,l,s,a,i,color);
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(2,0,0);
-        piernaIzquierda->draw(modo,p,l,s,a,i);
+        piernaIzquierda->draw(modo,p,l,s,a,i,color);
         glTranslatef(-4,0,0);
-        piernaDerecha->draw(modo,p,l,s,a,i);
+        piernaDerecha->draw(modo,p,l,s,a,i,color);
     glPopMatrix();
 }
 

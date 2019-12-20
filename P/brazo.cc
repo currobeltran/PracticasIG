@@ -9,17 +9,17 @@ Brazo::Brazo(){
     rotacionBrazo=0.0;
 }
 
-void Brazo::draw(int modo, bool p, bool l, bool s,bool a,bool i){
+void Brazo::draw(int modo, bool p, bool l, bool s,bool a,bool i, Tupla3f color){
     glPushMatrix();
         glRotatef(rotacionBrazo,1,0,0);
-        parteSuperior->draw(modo,p,l,s,a,i);
+        parteSuperior->draw(modo,p,l,s,a,i,nullptr,color);
         glTranslatef(0,-1.5,0);
-        codo->draw(modo,p,l,s,a,i);
+        codo->draw(modo,p,l,s,a,i,nullptr,color);
         glRotatef(rotacionCodo,1,0,0);
         glTranslatef(0,-1,0);
-        parteInferior->draw(modo,p,l,s,a,i);
+        parteInferior->draw(modo,p,l,s,a,i,nullptr,color);
         glTranslatef(0,-1.5,0);
-        mano->draw(modo,p,l,s,a,i);
+        mano->draw(modo,p,l,s,a,i,nullptr,color);
     glPopMatrix();
 }
 
