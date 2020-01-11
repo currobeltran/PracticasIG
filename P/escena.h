@@ -18,6 +18,7 @@
 #include "persona.h"
 #include "cuadro.h"
 #include "camara.h"
+#include "piramide.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELTAPAS} menu;
 
@@ -57,6 +58,7 @@ class Escena{
         Persona * modelo;
         Cuadro * cuadro=nullptr, * cuadro2=nullptr;
         Textura * textura1, * textura2;
+        Piramide * unaPiramide=nullptr;
    
     // Variable que contiene el modo de dibujado, si inmediato o diferido
         int modoDibujo;

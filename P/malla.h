@@ -44,7 +44,7 @@ class Malla3D
    void modoDibujado(GLenum modo, bool inmediato);
 
    //Seleccion del color modoDiferido
-   void seleccionColorDiferido(std::vector<Tupla3f> color, GLuint VBO);
+   void seleccionColorDiferido(std::vector<Tupla3f> color, GLuint &VBO);
 
    //Funcion para modo ajedrez
    void draw_ModoInmediatoAjedrez();
@@ -72,7 +72,7 @@ class Malla3D
    std::vector<Tupla3f> c, cpun, cl, cs; // terna de 3 floats para cada vertice 
    
    std::vector<Tupla3f> nv; // vector de normales a los vertices
-   Material * m; 
+   Material * m=nullptr; 
 
    Textura * tex = nullptr;
 

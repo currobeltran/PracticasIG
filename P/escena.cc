@@ -19,32 +19,38 @@ Escena::Escena()
    tetraedro=new Tetraedro();
    cubo=new Cubo();
    cuadro=new Cuadro(2);
-   cuadro2=new Cuadro(20);
+   cuadro2=new Cuadro(200);
+   unaPiramide=new Piramide();
    
-   unPly=new ObjPLY("./plys/ant.ply");
+   unPly=new ObjPLY("./plys/big_dodge.ply");
    unObjRev=new ObjRevolucion("./plys/peon.ply",40);
-   unCono=new Cono(40,1,1,true,true);
+   unCono=new Cono(40,2,2,true,true);
    unCil=new Cilindro(30,1,1,true,true);
 
    unaLuz=new LuzPosicional({40,40,40},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
-   unaLuz2=new LuzDireccional({0,0,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
+   unaLuz2=new LuzDireccional({1,1,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
 
+   //Material blanco
    mat=Material({1.0,1.0,1.0,1.0},{0.0,0.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
-   mat2=Material({0.3,0,0.7,1.0},{0.0,1.0,0.0,1.0},{0.0,0.0,0.0,1.0},128.0);
-   mat3=Material({0,0,0,1.0},{0.0,0.0,0.0,1.0},{1.0,0.0,0.0,1.0},128.0);
 
-   textura1=new Textura("./img/cuadro.jpg");
+   //Material rojo techo
+   mat2=Material({0.2295,0.08825,0.0275,1.0},{0.5508,0.2118,0.066,1.0},{0.580594,0.223257,0.0695701,1.0},128.0);
+   
+   //Material verde
+   mat3=Material({0.135,0.2225,0.1575,0.95},{0.54,0.89,0.63,0.95},{0.316228,0.316228,0.316228,0.95},128.0);
+
+   textura1=new Textura("./img/grass.jpg");
    textura2=new Textura("./img/bricks.jpg");
 
    modelo=new Persona();
    
    luces={false};
 
-   camaras[0]=new Camara({100,100,100},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
-   camaras[1]=new Camara({0,0,-50},{0,0,0},{0,1,0},1,1000,1000,0.1,1000);
-   camaras[2]=new Camara({0,0,200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
+   camaras[0]=new Camara({200,200,200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
+   camaras[1]=new Camara({0,0,200},{0,0,0},{0,1,0},1,1000,1000,0.1,1000);
+   camaras[2]=new Camara({0,0,-200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
 
    seleccionado=false;
 }
@@ -93,14 +99,16 @@ void Escena::dibujar(){
       if(!glIsEnabled(GL_LIGHTING))
          glEnable(GL_LIGHTING);
 
-      unObjRev->setMaterial(mat); 
-      cubo->setMaterial(mat2);
+      unObjRev->setMaterial(mat3); 
+      cubo->setMaterial(mat);
       unCono->setMaterial(mat);
       unPly->setMaterial(mat);
       unCil->setMaterial(mat);
       modelo->setMaterial(mat);
       cuadro->setMaterial(mat);
       cuadro2->setMaterial(mat);
+      unaPiramide->setMaterial(mat2);
+      tetraedro->setMaterial(mat);
 
       if(luces[1])
          unaLuz->activar();
@@ -123,45 +131,47 @@ void Escena::dibujar(){
 
    glEnable(GL_CULL_FACE);
 
-   // glPushMatrix();
-   //    glScalef(20,20,20);
-   //    glTranslatef(3,0,0);
-   //    unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
-
-   glPushMatrix();
-      glTranslatef(-2,0,0);
-      unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   glPopMatrix();
-
    glEnable(GL_TEXTURE_2D);
       glPushMatrix();
-         // cuadro2->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura2);
-         glTranslatef(2,0,0);
-         cuadro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura1);
+         cuadro2->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion, textura1);
       glPopMatrix();
    glDisable(GL_TEXTURE_2D);
 
-   // glPushMatrix();
-   //    glTranslatef(-2,0,0);
-   //    cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
-
-   // glPushMatrix();
-   //    glScalef(5,5,5);
-   //    glTranslatef(5,0,-10);
-   //    unPly->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
-
-   // glPushMatrix();
-   //    glScalef(20,20,20);
-   //    glTranslatef(-5,0,-10);
-   //    unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
-   // glPopMatrix();
+   glPushMatrix();
+      glTranslatef(-20,0,-20);
+      glRotatef(90,0,1,0);
+      glScalef(0.1,0.1,0.1);
+      modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
 
    glPushMatrix();
-      glTranslatef(0,0,-10);
-      modelo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glTranslatef(10,0,0);
+      unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(-10,0,-20);
+      glRotatef(-90,0,1,0);
+      glScalef(0.3,0.3,0.3);
+      unPly->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(-25,2,20);
+      glScalef(3,3,3);
+      tetraedro->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(-25,2,-20);
+      glScalef(3,3,3);
+      cubo->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glTranslatef(0,1,0);
+      unaPiramide->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    glPopMatrix();
 
 }
@@ -700,7 +710,7 @@ void Escena::dibujaSeleccion(){
    glReadPixels(xsel,ysel,1,1,GL_RGB,GL_FLOAT,(void *)resultado);
 
    if(resultado[0]==1.0 && resultado[1]==0 && resultado[2]==0){
-      camaras[camaraActiva]->setPuntoRotacion({-2,0,0});
+      camaras[camaraActiva]->setPuntoRotacion({10,0,0});
    }
    else{
       camaras[camaraActiva]->setPuntoRotacion({0,0,0});

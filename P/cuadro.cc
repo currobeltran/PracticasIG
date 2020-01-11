@@ -5,10 +5,10 @@
 Cuadro::Cuadro(float lado){
     v.resize(4);
 
-    v[0]={0,0,0};
-    v[1]={lado,0,0};
-    v[2]={lado,lado,0};
-    v[3]={0,lado,0};
+    v[0]={-lado,-1,lado};
+    v[1]={lado,-1,lado};
+    v[2]={lado,-1,-lado};
+    v[3]={-lado,-1,-lado};
 
     f.resize(2);
 
@@ -20,7 +20,7 @@ Cuadro::Cuadro(float lado){
     ct.resize(4);
 
     ct[0]={0,0};
-    ct[1]={1,0};
-    ct[2]={1,1};
-    ct[3]={0,1};
+    ct[1]={50,0};
+    ct[2]={50,50};
+    ct[3]={0,50};
 }
