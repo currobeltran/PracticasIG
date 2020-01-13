@@ -60,9 +60,10 @@ void Camara::girar(int x, int y){
 }
 
 void Camara::zoom(float factor){
-    if(fovy+factor<=100 && fovy+factor>=0)
-        fovy+=factor;
-
+    if(fovy+factor<=100 && fovy+factor>=0){
+        std::cout << fovy << std::endl;
+        this->fovy+=factor;
+    }
     // left = tan((fovy/2)*(M_PI/180))*near;
     // top = left*aspect;
 }

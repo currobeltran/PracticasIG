@@ -101,6 +101,7 @@ void clickRaton(int boton, int estado, int x, int y){
    if(escena!=NULL){
       escena->clickRaton(boton,estado,x,y);
    }
+   glutPostRedisplay();
 }
 
 void ratonMovido(int x, int y){

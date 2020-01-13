@@ -71,7 +71,7 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	Width  = UI_window_width/10;
 	Height = UI_window_height/10;
 
-   change_projection( float(UI_window_width)/float(UI_window_height) );
+   change_projection();
 	glViewport( 0, 0, UI_window_width, UI_window_height );
  
 }
@@ -519,10 +519,12 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
          Observer_angle_x++ ;
          break;
 	   case GLUT_KEY_PAGE_UP:
-         Observer_distance *=1.2 ;
+         camaras[camaraActiva]->zoom(-1);
+         change_projection();
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         Observer_distance /= 1.2 ;
+         camaras[camaraActiva]->zoom(1);
+         change_projection();
          break;
 	}
 
@@ -536,7 +538,7 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 //
 //***************************************************************************
 
-void Escena::change_projection( const float ratio_xy )
+void Escena::change_projection()
 {
    glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
@@ -550,7 +552,7 @@ void Escena::redimensionar( int newWidth, int newHeight )
 {
    Width  = newWidth/10;
    Height = newHeight/10;
-   change_projection( float(newHeight)/float(newWidth) );
+   change_projection();
    glViewport( 0, 0, newWidth, newHeight );
 }
 
@@ -671,16 +673,7 @@ void Escena::clickRaton(int boton, int estado, int x, int y){
          yant=y;
       }
    }
-   else{
-      estadoRaton=0;
-   }
    
-   if(boton==3 && estado==GLUT_UP){
-      camaras[camaraActiva]->zoom(-1);
-   }
-   else if(boton==4 && estado==GLUT_UP){
-      camaras[camaraActiva]->zoom(1);
-   }
    else if(boton==GLUT_LEFT_BUTTON){
       if(estado==GLUT_DOWN){
          xsel=x;
@@ -688,6 +681,11 @@ void Escena::clickRaton(int boton, int estado, int x, int y){
          dibujaSeleccion();
       }
    }
+
+   else{
+      estadoRaton=0;
+   }
+
 }
 
 void Escena::dibujaSeleccion(){
