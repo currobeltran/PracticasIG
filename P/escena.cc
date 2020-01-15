@@ -48,8 +48,8 @@ Escena::Escena()
    
    luces={false};
 
-   camaras[0]=new Camara({200,200,200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
-   camaras[1]=new Camara({0,0,200},{0,0,0},{0,1,0},1,1000,1000,0.1,1000);
+   camaras[0]=new Camara({200,200,200},{0,0,0},{0,1,0},0,10,10,50,1000);
+   camaras[1]=new Camara({0,50,200},{0,0,0},{0,1,0},1,10,10,50,1000);
    camaras[2]=new Camara({0,0,-200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
 
    seleccionado=false;
@@ -519,11 +519,11 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
          Observer_angle_x++ ;
          break;
 	   case GLUT_KEY_PAGE_UP:
-         camaras[camaraActiva]->zoom(-1);
+         camaras[camaraActiva]->zoom(1);
          change_projection();
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         camaras[camaraActiva]->zoom(1);
+         camaras[camaraActiva]->zoom(-1);
          change_projection();
          break;
 	}

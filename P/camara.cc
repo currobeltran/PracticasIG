@@ -17,9 +17,9 @@ float right, float near, float far){
     this->far=far;
 
     aspect=(right*2)/(top*2);
-    // fovy=atan(right/near)*(180/M_PI)*2;
+    fovy=atan(left/near)*(180/M_PI)*2;
 
-    fovy=10;
+    // fovy=10;
 
     // El orden en los 3 calculos siguientes afecta
     n=(at-eye);
@@ -60,12 +60,16 @@ void Camara::girar(int x, int y){
 }
 
 void Camara::zoom(float factor){
-    if(fovy+factor<=100 && fovy+factor>=0){
-        std::cout << fovy << std::endl;
+    if(fovy+factor<=100 && fovy+factor>=1){
         this->fovy+=factor;
     }
-    // left = tan((fovy/2)*(M_PI/180))*near;
-    // top = left*aspect;
+
+    if(tipo==1){ 
+        left=tan((fovy/2)*(M_PI/180))*near;
+        right=-left;
+        top=left*aspect;
+        bottom=-top;
+    }
 }
 
 void Camara::mover(float x, float y, float z){
@@ -77,7 +81,7 @@ void Camara::setProyeccion(){
         gluPerspective(fovy,aspect,near,far);
     }
     else{
-        glOrtho(left,right,bottom,top,near,far);
+        glOrtho(right,left,bottom,top,near,far);
     }
 }
 

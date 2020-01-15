@@ -25,7 +25,10 @@ void Malla3D::modoDibujado(GLenum modo, bool inmediato){
    if(inmediato)
       glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,f.data());
    else{
+      //Inicio array triangulos 
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbo_tri);
       glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT, 0 );
+      glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ); 
    }
 }
 
@@ -34,15 +37,10 @@ void Malla3D::setNuevoColor(Tupla3f color){
 }
 
 void Malla3D::seleccionColorDiferido(std::vector<Tupla3f> color, GLuint &VBO){
-
-   if(VBO==0){
-      VBO=CrearVBO(GL_ARRAY_BUFFER, color.size() * sizeof(float) * 3, color.data());
-   }
-
    glBindBuffer(GL_ARRAY_BUFFER,VBO);
    glColorPointer(3, GL_FLOAT, 0, 0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
-
+   glEnableClientState(GL_COLOR_ARRAY);
 }
 
 
@@ -87,8 +85,24 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s,Tupla3f color)
       id_vbo_tri=CrearVBO(GL_ELEMENT_ARRAY_BUFFER, f.size() * sizeof(int) * 3, f.data());
    }
 
-   if(id_vbo_nor==0){
-      id_vbo_nor=CrearVBO(GL_ARRAY_BUFFER, nv.size() * sizeof(float) * 3, nv.data());
+   if(id_vbo_nor==0 && !nv.empty()){
+      id_vbo_nor=CrearVBO(GL_ARRAY_BUFFER, nv.size() * sizeof(float) * 3, nv.data());  
+   }
+
+   if(id_vbo_col_punto==0){
+      id_vbo_col_punto=CrearVBO(GL_ARRAY_BUFFER, cpun.size() * sizeof(float) * 3, cpun.data());
+   }
+
+   if(id_vbo_col_linea==0){
+      id_vbo_col_linea=CrearVBO(GL_ARRAY_BUFFER, cl.size() * sizeof(float) * 3, cl.data());
+   }
+
+   if(id_vbo_col_solido==0){
+      id_vbo_col_solido=CrearVBO(GL_ARRAY_BUFFER, cs.size() * sizeof(float) * 3, cs.data());
+   }
+
+   if(id_vbo_tx==0 && !ct.empty()){
+      id_vbo_tx=CrearVBO(GL_ARRAY_BUFFER, ct.size() * sizeof(float) * 2, ct.data());
    }
 
    //Inicio array vertices
@@ -97,32 +111,35 @@ void Malla3D::draw_ModoDiferido(bool p, bool l, bool s,Tupla3f color)
    glBindBuffer(GL_ARRAY_BUFFER, 0 );
    glEnableClientState(GL_VERTEX_ARRAY);
    
-   //Inicio array triangulos 
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbo_tri);
-
    //Inicio array normales
    glBindBuffer(GL_ARRAY_BUFFER,id_vbo_nor);
-   glNormalPointer( GL_FLOAT, 0, 0 );
-   glBindBuffer(GL_ARRAY_BUFFER, 0 );
+   glNormalPointer(GL_FLOAT, 0, 0);
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
    glEnableClientState(GL_NORMAL_ARRAY);
 
-   //Inicio array colores y dibujo
+   //Inicio array texturas
+   if(!ct.empty()){
+      glBindBuffer( GL_ARRAY_BUFFER, id_vbo_tx);
+      glTexCoordPointer(2, GL_FLOAT, 0, 0);
+      glBindBuffer( GL_ARRAY_BUFFER, 0 ); 
+      glEnableClientState( GL_TEXTURE_COORD_ARRAY);
+  }
+
+   //Inicio array colores
    glEnableClientState(GL_COLOR_ARRAY);
 
    if(p){
-      seleccionColorDiferido(cpun, id_vbo_col_punto);
+      seleccionColorDiferido(cpun,id_vbo_col_punto);
       modoDibujado(GL_POINT, false);
    }
    if(l){
-      seleccionColorDiferido(cl, id_vbo_col_linea);
+      seleccionColorDiferido(cl,id_vbo_col_linea);
       modoDibujado(GL_LINE, false);
    }
    if(s){
-      seleccionColorDiferido(cs, id_vbo_col_solido);
+      seleccionColorDiferido(cs,id_vbo_col_solido);
       modoDibujado(GL_FILL, false);
    }
-
-   glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ); 
 
    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
@@ -152,9 +169,7 @@ void Malla3D::draw(int modo, bool p, bool l, bool s, bool a, bool i,Textura * t,
 
    if(!ct.empty()){
       glTexCoordPointer( 2,GL_FLOAT, 0, ct[0]);
-
       tex=t;
-
       tex->activar();
    }
 

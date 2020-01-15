@@ -84,6 +84,7 @@ class Malla3D
    GLuint id_vbo_col_punto=0;
    GLuint id_vbo_col_solido=0;
    GLuint id_vbo_nor=0;
+   GLuint id_vbo_tx=0;
 
 } ;
 
