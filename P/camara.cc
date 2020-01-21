@@ -9,17 +9,15 @@ float right, float near, float far){
 
     this->tipo=tipo;
 
-    this->right=right;
-    this->left=-right;
+    this->left=right;
+    this->right=-left;
     this->top=top;
     this->bottom=-top;
     this->near=near;
     this->far=far;
 
     aspect=(right*2)/(top*2);
-    fovy=atan(left/near)*(180/M_PI)*2;
-
-    // fovy=10;
+    fovy=atan(right/near)*(180/M_PI)*2;
 
     // El orden en los 3 calculos siguientes afecta
     n=(at-eye);
@@ -30,8 +28,8 @@ float right, float near, float far){
     v=(u.cross(n));
     v=v.normalized();
 
-    setProyeccion();
     setObserver();
+    setProyeccion();
 }
 
 void Camara::rotarXExaminar(float angle){

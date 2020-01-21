@@ -25,9 +25,10 @@ Escena::Escena()
    unPly=new ObjPLY("./plys/big_dodge.ply");
    unObjRev=new ObjRevolucion("./plys/peon.ply",40);
    unCono=new Cono(40,2,2,true,true);
-   unCil=new Cilindro(30,1,1,true,true);
+   unCil=new Cilindro(30,2,0.2,true,true);
+   unaEsfera=new Esfera(30,30,0.4,true,true);
 
-   unaLuz=new LuzPosicional({40,40,40},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
+   unaLuz=new LuzPosicional({5,5,0},GL_LIGHT1,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
    unaLuz2=new LuzDireccional({1,1,1},GL_LIGHT2,{0.0, 0.0, 0.0, 1.0},
    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0});
@@ -48,9 +49,9 @@ Escena::Escena()
    
    luces={false};
 
-   camaras[0]=new Camara({200,200,200},{0,0,0},{0,1,0},0,10,10,50,1000);
-   camaras[1]=new Camara({0,50,200},{0,0,0},{0,1,0},1,10,10,50,1000);
-   camaras[2]=new Camara({0,0,-200},{0,0,0},{0,1,0},0,1000,1000,0.1,1000);
+   camaras[0]=new Camara({30,50,50},{0,0,0},{0,1,0},0,10,10,50,1000);
+   camaras[1]=new Camara({0,0,200},{0,0,0},{0,1,0},1,10,10,50,1000);
+   camaras[2]=new Camara({0,0,-200},{0,0,0},{0,1,0},0,10,10,50,1000);
 
    seleccionado=false;
 }
@@ -86,9 +87,9 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 // **************************************************************************
 
 void Escena::dibujar(){
-
-   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
+   change_projection();
    change_observer();
+   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
    
    if(glIsEnabled(GL_LIGHTING))
       glDisable(GL_LIGHTING);
@@ -109,6 +110,7 @@ void Escena::dibujar(){
       cuadro2->setMaterial(mat);
       unaPiramide->setMaterial(mat2);
       tetraedro->setMaterial(mat);
+      unaEsfera->setMaterial(mat);
 
       if(luces[1])
          unaLuz->activar();
@@ -145,7 +147,14 @@ void Escena::dibujar(){
    glPopMatrix();
 
    glPushMatrix();
-      glTranslatef(10,0,0);
+      glTranslatef(5,2.5,0);
+      unCil->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
+      glTranslatef(0,2.5,0);
+      unaEsfera->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);  
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(10,1,0);
       unCono->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    glPopMatrix();
 
@@ -157,6 +166,7 @@ void Escena::dibujar(){
    glPopMatrix();
 
    glPushMatrix();
+      glTranslatef(0,1,0);
       unObjRev->draw(modoDibujo, modoPunto, modoLinea, modoSolido, modoAjedrez, modoIluminacion);
    glPopMatrix();
 
@@ -520,11 +530,9 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
          break;
 	   case GLUT_KEY_PAGE_UP:
          camaras[camaraActiva]->zoom(1);
-         change_projection();
          break;
 	   case GLUT_KEY_PAGE_DOWN:
          camaras[camaraActiva]->zoom(-1);
-         change_projection();
          break;
 	}
 
@@ -666,20 +674,16 @@ void Escena::ratonMovido( int x, int y ){
 }
 
 void Escena::clickRaton(int boton, int estado, int x, int y){
-   if(boton==GLUT_RIGHT_BUTTON){
-      if(estado==GLUT_DOWN){
-         estadoRaton=1;
-         xant=x;
-         yant=y;
-      }
+   if(boton==GLUT_RIGHT_BUTTON && estado==GLUT_DOWN){
+      estadoRaton=1;
+      xant=x;
+      yant=y;
    }
    
-   else if(boton==GLUT_LEFT_BUTTON){
-      if(estado==GLUT_DOWN){
-         xsel=x;
-         ysel=y;
-         dibujaSeleccion();
-      }
+   else if(boton==GLUT_LEFT_BUTTON && estado==GLUT_DOWN){
+      xsel=x;
+      ysel=y;
+      dibujaSeleccion();
    }
 
    else{
@@ -708,10 +712,12 @@ void Escena::dibujaSeleccion(){
    glReadPixels(xsel,ysel,1,1,GL_RGB,GL_FLOAT,(void *)resultado);
 
    if(resultado[0]==1.0 && resultado[1]==0 && resultado[2]==0){
-      camaras[camaraActiva]->setPuntoRotacion({10,0,0});
+      for(int i=0;i<3;i++)
+         camaras[i]->setPuntoRotacion({10,0,0});
    }
    else{
-      camaras[camaraActiva]->setPuntoRotacion({0,0,0});
+      for(int i=0;i<3;i++)
+         camaras[i]->setPuntoRotacion({0,0,0});
       seleccionado=false;
    }
 
